@@ -323,3 +323,25 @@ main .section.highlight {
   margin: 0;
   padding: 40px 0;
 }
+
+.section {
+    &[data-background-color] {
+        padding-block: 40px;
+    }
+
+    &[data-background-color="light"] {
+        background-color: var(--light-color);
+    }
+
+    &[data-background-color="dark"] {
+        background-color: var(--dark-color);
+    }
+
+    &[data-indent*="start"] {
+        padding-inline-start: 20px;
+    }
+
+    &[data-indent*="end"] {
+        padding-inline-end: 20px;
+    }
+}
