@@ -11,6 +11,7 @@ import {
   loadSections,
   loadCSS,
 } from './aem.js';
+import { getElementByTechnicalKey } from './utils.js';
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -27,6 +28,30 @@ function buildHeroBlock(main) {
     }
     const section = document.createElement('div');
     section.append(buildBlock('hero', { elems: [picture, h1] }));
+    main.prepend(section);
+  }
+}
+
+/**
+ * Builds profile block and prepends to main in a new section.
+ * @param {HTMLElement} main The container element
+ */
+function buildProfileBlock(main) {
+  const templateKey = '[Profile]';
+  const h1El = main.querySelector('h1');
+  const h1Text = h1El ? h1El.innerText : '';
+  const isProfileTemplate = h1Text.includes(templateKey);
+
+  if (isProfileTemplate) {
+    const countryEl = getElementByTechnicalKey(main, '[Country]');
+    const birthDateEl = getElementByTechnicalKey(main, '[Birth date]');
+
+    const section = document.createElement('div');
+    section.append(
+      buildBlock('profile', {
+        elems: [h1El, countryEl, birthDateEl].filter((el) => el !== null),
+      }),
+    );
     main.prepend(section);
   }
 }
@@ -68,6 +93,7 @@ function buildAutoBlocks(main) {
     }
 
     buildHeroBlock(main);
+    buildProfileBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
